@@ -1,0 +1,10 @@
+Welcome to {{ ansible_facts.hostname }}
+(IP Address: {{ ansible_facts.default_ipv4.address }})
+
+Access is restricted; please contact {{ system_admin_email | default ('echeadle@gmail.com') }}.
+Phone: {{ system_admin_phone | default('385 256 8360') }}
+
+-------------------------------------
+This message is configured by Ansible
+-------------------------------------
+

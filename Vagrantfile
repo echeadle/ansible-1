@@ -16,6 +16,11 @@ Vagrant.configure("2") do |config|
     v.customize ["modifyvm", :id, "--ioapic", "on"]
   end
 
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.installer_options = { running_kernel_modules: ["vboxguest"] }
+    config.vbguest.auto_update = true
+  end
+
   # Server 1
   config.vm.define "srv1" do |srv1|
     srv1.vm.hostname = "srv1.test"
