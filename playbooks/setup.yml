@@ -1,0 +1,40 @@
+---
+- name: Provision VM
+  hosts: all
+  become: yes
+  become_method: sudo
+  remote_user: ubuntu
+  pre_tasks:
+    - name: Update apt_cache if needed.
+      ansible.builtin.apt: 
+        update_cache: yes 
+        cache_valid_time: 1440
+    - name: Update all packages to their latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+
+  tasks:
+    - name: Add ansible admin user to 'devops' to server
+      ansible.builtin.user:
+        name: devops
+        shell: /bin/bash
+        password: $6$tTpSL19CQ1xFEAQ9$/I9jvMXh8ve8e3uYmf5Wt6CI/JkQu3pqHd7MbX7GOWlYOq1yfl7jyuT4lHZvwnLF8xbP2sX4TSXjIlru.cLQT1
+        groups: sudo
+        append: yes
+
+    - name: Add .ssh directory
+      ansible.builtin.file:
+        path: /home/devops/.ssh
+        state: directory
+        owner: devops
+        group: devops
+        mode: '0700'
+
+    - name: Copy devops ssh public key to server
+      ansible.builtin.copy:
+        src: ../files/devops.pub
+        dest: /home/devops/.ssh/authorized_keys
+        owner: devops
+        group: devops
+        mode: '0644'

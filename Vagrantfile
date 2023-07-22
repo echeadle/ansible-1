@@ -21,8 +21,8 @@ Vagrant.configure("2") do |config|
     srv1.vm.hostname = "srv1.test"
     srv1.vm.network :private_network, ip: "192.168.56.40"
 
-    srv1.vm.provision "shell", 
-      inline: "sudo apt-get update && sudo apt-get upgrade -y"
+#    srv1.vm.provision "shell", 
+#      inline: "sudo apt-get update && sudo apt-get upgrade -y"
 
     srv1.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 1024]
